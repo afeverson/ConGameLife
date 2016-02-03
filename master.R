@@ -1,7 +1,10 @@
+library(ggplot2)
+library(reshape2)
+
 ##Generates a "new" board
 new.board <- function(row.col = 10, seeds = NULL) {
   if (is.null(seeds)) {
-    board <- matrix(runif(row.col^2) > 0.85, nrow = row.col, ncol = row.col)
+    board <- matrix(runif(row.col^2) > 0.75, nrow = row.col, ncol = row.col)
   }
   else {
     board <- matrix(FALSE, nrow = row.col, ncol = row.col)
@@ -55,19 +58,22 @@ rules <- function(board) {
 }
 
 ##Making the board pretty with ggplot
+looks <- function(board) {
+  board <- melt(board)
+  board$value <- factor(ifelse(board$value, "A", "D"))
+  p <- ggplot(board, aes(x = Var1, y = Var2, z = value, color = value)) +
+        geom_tile(aes(fill = value)) +
+        scale_fill_manual(values = c("D" = "white", "A" = "green"))
+  p
+}
 
 ##Plays the game
 play <- function(rc = 10, seeds = NULL, iter = 50) {
   b <- new.board(row.col = rc, seeds = seeds)
   n = 0
-  df <- data.frame()
   while (n < iter) {
     b <- rules(b)
     n <- n + 1
-    df <- cbind(df, as.data.frame(b))
+    print(looks(b))
   }
-  df
 }
-
-
-
