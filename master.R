@@ -36,26 +36,38 @@ num.neighbors <- function(board, a, b) {
 
 ##Implementation of the rules
 rules <- function(board) {
-  for (i in 1:nrow(board)){
-    for (j in 1:ncol(board)){
-      n <- num.neighbors(board, i, j)
-      if (board[i,j] == TRUE & n < 2) {
+  n <- nrow(board)
+  b <- board
+  for (i in 1:n) {
+    for (j in 1:n) {
+      if ((b[i,j] == TRUE) && (num.neighbors(b,i,j) < 2)) {
         board[i,j] <- FALSE
       }
-      else if (board[i,j] == TRUE & n > 3) {
+      if ((b[i,j] == TRUE) && (num.neighbors(b,i,j) > 3)) {
         board[i,j] <- FALSE
       }
-      else if (board[i,j] == FALSE & n == 3) {
+      if ((b[i,j] == FALSE) && (num.neighbors(b,i,j) == 3)) {
         board[i,j] <- TRUE
       }
     }
   }
+  board
 }
 
-##Generates the next iteration of the board
-next.board <- function() {
-  
-}
+##Making the board pretty with ggplot
 
 ##Plays the game
+play <- function(rc = 10, seeds = NULL, iter = 50) {
+  b <- new.board(row.col = rc, seeds = seeds)
+  n = 0
+  df <- data.frame()
+  while (n < iter) {
+    b <- rules(b)
+    n <- n + 1
+    df <- cbind(df, as.data.frame(b))
+  }
+  df
+}
+
+
 
