@@ -67,7 +67,11 @@ looks <- function(board) {
   board$value <- factor(ifelse(board$value, "A", "D"))
   p <- ggplot(board, aes(x = Var1, y = Var2, z = value, color = value)) +
     geom_tile(aes(fill = value)) +
-    scale_fill_manual(values = c("D" = "white", "A" = "green"))
+    scale_fill_manual(values = c("D" = "white", "A" = "green")) +
+    theme(axis.text.x=element_blank(),
+          axis.text.y=element_blank(),
+          axis.title.x=element_blank(),
+          axis.title.y=element_blank())
   p
 }
 
@@ -84,6 +88,6 @@ play <- function(rc = 10, seeds = NULL, iter = 50) {
 
 ani.options()
 
-ani.options(convert = 'C:/Program Files/ImageMagick-7.0.2-Q16/convert.exe')
+ani.options(convert = 'C:/Program Files/ImageMagick-7.0.2-Q16/magick.exe')
 
-saveGIF(play(rc=10,iter=20), interval = 0.5)
+saveGIF(play(rc=20,iter=20), interval = 0.5)
