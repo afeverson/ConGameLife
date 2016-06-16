@@ -1,5 +1,9 @@
+##Creating a GIF of Conways Game of Life
+
+##Opening appropriate packages
 library(ggplot2)
 library(reshape2)
+library(animation) #this one requires ImageMagick to work
 
 ##Generates a "new" board
 new.board <- function(row.col = 10, seeds = NULL) {
@@ -62,8 +66,8 @@ looks <- function(board) {
   board <- melt(board)
   board$value <- factor(ifelse(board$value, "A", "D"))
   p <- ggplot(board, aes(x = Var1, y = Var2, z = value, color = value)) +
-        geom_tile(aes(fill = value)) +
-        scale_fill_manual(values = c("D" = "white", "A" = "green"))
+    geom_tile(aes(fill = value)) +
+    scale_fill_manual(values = c("D" = "white", "A" = "green"))
   p
 }
 
@@ -77,3 +81,9 @@ play <- function(rc = 10, seeds = NULL, iter = 50) {
     print(looks(b))
   }
 }
+
+ani.options()
+
+ani.options(convert = 'C:/Program Files/ImageMagick-7.0.2-Q16/convert.exe')
+
+saveGIF(play(rc=10,iter=20), interval = 0.5)
