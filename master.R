@@ -86,8 +86,17 @@ play <- function(rc = 10, seeds = NULL, iter = 50) {
   }
 }
 
-ani.options()
 
 ani.options(convert = 'C:/Program Files/ImageMagick-7.0.2-Q16/magick.exe')
 
-saveGIF(play(rc=20,iter=20), interval = 0.5)
+##Good random sized board
+saveGIF(play(rc=20,iter=50), interval=0.1)
+
+##Glider that goes from bottom left to top right
+saveGIF(play(rc=10,seeds=c(1,1,1,3,2,2,2,3,3,2),iter=31), interval=0.2)
+
+##Pulsar
+saveGIF(play(rc=20,seeds=c(),iter=12), interval=0.25)
+
+##Big board (random seeds)
+saveGIF(play(rc=1000,iter=50), interval=0.1)
